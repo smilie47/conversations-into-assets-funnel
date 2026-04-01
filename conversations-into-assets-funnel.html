@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Turn Conversations Into Assets — 2-Hour Live Workshop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,900&family=Lato:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================
+       VARIABLES & RESET
+    ============================ */
+    :root {
+      --peach:       #F2FAFA;
+      --light-peach: #E5F6F5;
+      --orange:      #C96070;
+      --navy:        #0B3535;
+      --dark:        #071E1E;
+      --white:       #FFFFFF;
+      --gold:        #F5D440;
+      --pink:        #2EC4BC;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Lato', sans-serif;
+      background: var(--light-peach);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .divider {
+      width: 56px; height: 5px;
+      background: var(--orange);
+      margin: 18px auto 28px;
+      border-radius: 3px;
+    }
+    .divider.light { background: var(--peach); }
+
+    /* ============================
+       ANIMATED ARROWS
+    ============================ */
+    .arrow-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 14px 0 20px;
+    }
+    .arrow-block .chevron {
+      display: block;
+      animation: chevBounce 1.6s ease-in-out infinite;
+    }
+    .arrow-block .chevron:nth-child(2) { animation-delay: 0.18s; opacity: .6; }
+    .arrow-block .chevron:nth-child(3) { animation-delay: 0.36s; opacity: .3; }
+    @keyframes chevBounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(9px); }
+    }
+
+    /* ============================
+       SCROLL-REVEAL BASE
+    ============================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+    .reveal.up { transform: translateY(22px); }
+    .reveal.left { transform: translateX(-22px); }
+    .reveal.scale { transform: scale(.93); }
+    .reveal.visible {
+      opacity: 1;
+      transform: translate(0) scale(1);
+    }
+
+    /* ============================
+       HERO
+    ============================ */
+    .hero {
+      background: var(--peach);
+      padding: 52px 24px 44px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at top center, rgba(255,255,255,.35) 0%, transparent 65%);
+    }
+    .hero > * { position: relative; z-index: 1; }
+
+    .badge {
+      display: inline-block;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .85rem;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--navy);
+      border: 3px solid var(--navy);
+      padding: 7px 18px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(2.4rem, 8vw, 3.6rem);
+      font-weight: 900;
+      color: var(--navy);
+      line-height: 1.05;
+      margin-bottom: 16px;
+    }
+    .brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: 10px 0 22px;
+    }
+    .brand-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: var(--orange);
+      letter-spacing: 2px;
+    }
+    .brand-bolt {
+      font-size: 1.6rem;
+      color: var(--orange);
+      line-height: 1;
+    }
+    .brand-tag {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    /* Photo placeholder */
+    .photo-frame {
+      width: 100%;
+      max-width: 520px;
+      margin: 28px auto;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 10px 35px rgba(27,31,75,.22);
+      background: linear-gradient(145deg, #0B3535 0%, #2EC4BC 55%, #C96070 100%);
+      min-height: 380px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      position: absolute;
+      inset: 0;
+    }
+    .photo-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: rgba(255,255,255,.85);
+      text-align: center;
+      padding: 20px;
+      position: relative;
+      z-index: 1;
+      border: 2px dashed rgba(255,255,255,.5);
+      border-radius: 8px;
+      margin: 20px;
+    }
+
+    .hook-card {
+      background: var(--white);
+      border-left: 6px solid var(--orange);
+      border-radius: 0 10px 10px 0;
+      padding: 20px 24px;
+      margin: 22px auto;
+      max-width: 580px;
+      text-align: left;
+    }
+    .hook-card p {
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: var(--dark);
+    }
+    .hook-card strong { color: var(--orange); }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      line-height: 1.75;
+      color: var(--dark);
+      max-width: 580px;
+      margin: 0 auto 10px;
+    }
+
+    /* ============================
+       SECTION SHARED STYLES
+    ============================ */
+    section { padding: 60px 24px; }
+    .sec-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(1.6rem, 5vw, 2.1rem);
+      font-weight: 900;
+      color: var(--navy);
+      text-align: center;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+    .sec-title.italic { font-style: italic; }
+    .sec-title.light { color: var(--white); }
+
+    /* ============================
+       CHECK / PROBLEM LISTS
+    ============================ */
+    .check-list {
+      list-style: none;
+      max-width: 540px;
+      margin: 0 auto;
+    }
+    .check-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 20px;
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .45s ease, transform .45s ease;
+    }
+    .check-list li.visible { opacity: 1; transform: translateY(0); }
+
+    .ci {
+      width: 32px; height: 32px; min-width: 32px;
+      background: var(--orange);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--white);
+      font-weight: 900;
+      font-size: 1.05rem;
+      box-shadow: 0 3px 10px rgba(212,98,40,.35);
+    }
+    .ci.navy { background: var(--navy); }
+    .ci.x {
+      background: var(--navy);
+      font-size: .9rem;
+    }
+    .ci.dash {
+      background: var(--peach);
+      color: var(--dark);
+      font-size: 1.1rem;
+      font-weight: 900;
+    }
+
+    .check-list .item-head {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      color: var(--navy);
+      margin-bottom: 3px;
+    }
+    .check-list .item-sub {
+      font-size: .95rem;
+      color: #555;
+      font-style: italic;
+      line-height: 1.5;
+    }
+    .check-list .item-text {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: var(--dark);
+    }
+    .check-list.light .item-text { color: rgba(255,255,255,.9); }
+
+    /* ============================
+       CIRCLE-LASSO ANIMATION
+    ============================ */
+    .lasso-wrap {
+      position: relative;
+      display: inline-block;
+      margin: 28px auto 10px;
+    }
+    .lasso-text {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--dark);
+      padding: 16px 48px;
+      display: inline-block;
+      position: relative;
+      z-index: 1;
+    }
+    .lasso-svg {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      overflow: visible;
+      pointer-events: none;
+    }
+    .lasso-svg ellipse {
+      fill: none;
+      stroke: var(--dark);
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 0 1000;
+      transition: stroke-dasharray 1.8s cubic-bezier(.4,0,.2,1);
+    }
+    .lasso-svg.draw ellipse {
+      stroke-dasharray: 1000 0;
+    }
+
+    /* ============================
+       FORMULA SECTION
+    ============================ */
+    .formula-sec { background: var(--white); }
+    .cta-pointer {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--dark);
+      text-align: center;
+      margin-top: 22px;
+    }
+
+    /* ============================
+       PROMISE
+    ============================ */
+    .promise-sec { background: var(--navy); text-align: center; }
+    .promise-sec p {
+      font-size: clamp(1.1rem, 3.5vw, 1.35rem);
+      line-height: 1.75;
+      color: var(--white);
+      max-width: 560px;
+      margin: 0 auto;
+      font-style: italic;
+    }
+    .promise-sec p u { text-decoration-color: var(--orange); }
+
+    /* ============================
+       PROBLEM SECTION
+    ============================ */
+    .problem-sec { background: var(--light-peach); }
+    .problem-sec h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(1.4rem, 4.5vw, 1.85rem);
+      font-weight: 900;
+      color: var(--dark);
+      line-height: 1.3;
+      margin-bottom: 14px;
+    }
+    .problem-sec .intro {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+    .problem-sec .so-they {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+    .emph-box {
+      background: var(--orange);
+      color: var(--white);
+      padding: 16px 22px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 800;
+      border-radius: 8px;
+      margin: 24px 0 0;
+      text-align: center;
+    }
+    .emph-box.navy { background: var(--navy); }
+
+    /* ============================
+       LEARN SECTION
+    ============================ */
+    .learn-sec { background: var(--white); }
+
+    /* ============================
+       TOOLS + PHOTO 1 SECTION
+    ============================ */
+    .tools-sec { background: var(--peach); text-align: center; }
+    .tools-sec h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+    .tools-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin: 22px 0;
+    }
+    .tool-pill {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: .85rem;
+      letter-spacing: .8px;
+      padding: 8px 16px;
+      border-radius: 30px;
+      color: var(--white);
+      background: var(--navy);
+    }
+    .tool-pill.o { background: var(--orange); }
+    .tool-pill.p { background: var(--pink); }
+    .tool-pill.g { background: #1B6B3A; }
+    .tool-pill.b { background: #1877F2; }
+    .tool-pill.y { background: var(--gold); color: var(--dark); }
+    .tool-pill.r { background: #FF4500; }
+    .tool-pill.t { background: #00A4B4; }
+
+    /* ============================
+       RESULTS SECTION
+    ============================ */
+    .results-sec { background: var(--light-peach); }
+    .result-card {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 24px 26px;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.07);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .5s ease, transform .5s ease;
+    }
+    .result-card.visible { opacity: 1; transform: translateY(0); }
+    .result-card h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      color: var(--orange);
+      margin-bottom: 8px;
+      font-size: 1.05rem;
+    }
+    .result-card p { font-size: 1rem; line-height: 1.65; color: #444; }
+
+    /* ============================
+       YEAR FROM NOW
+    ============================ */
+    .year-sec { background: var(--navy); text-align: center; }
+    .year-sec h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(1.4rem, 4.5vw, 1.85rem);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.3;
+      max-width: 580px;
+      margin: 0 auto 18px;
+    }
+    .year-sec p {
+      font-size: 1.1rem;
+      line-height: 1.75;
+      color: rgba(255,255,255,.85);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    /* ============================
+       BONUSES
+    ============================ */
+    .bonuses-sec { background: var(--peach); }
+    .bonus-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      max-width: 580px;
+      margin: 0 auto;
+    }
+    @media (max-width: 480px) { .bonus-grid { grid-template-columns: 1fr; } }
+    .bonus-card {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 18px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.07);
+      opacity: 0;
+      transform: scale(.94);
+      transition: opacity .4s ease, transform .4s ease;
+    }
+    .bonus-card.visible { opacity: 1; transform: scale(1); }
+    .bonus-icon {
+      width: 36px; height: 36px; min-width: 36px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      font-weight: 900;
+      color: var(--white);
+    }
+    .bonus-icon.o { background: var(--orange); }
+    .bonus-icon.p { background: var(--pink); }
+    .bonus-icon.n { background: var(--navy); }
+    .bonus-icon.g { background: #1B6B3A; }
+    .bonus-card p {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: .9rem;
+      color: var(--navy);
+      line-height: 1.4;
+    }
+
+    /* ============================
+       WHO IT'S FOR
+    ============================ */
+    .for-sec { background: var(--white); }
+
+    /* ============================
+       PHOTO 2 + PERSONAL
+    ============================ */
+    .personal-sec {
+      background: var(--peach);
+      text-align: center;
+      padding: 60px 24px;
+    }
+
+    /* ============================
+       EMOTIONAL
+    ============================ */
+    .emotional-sec { background: var(--light-peach); }
+    .emotional-sec h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(1.5rem, 5vw, 1.9rem);
+      font-weight: 900;
+      font-style: italic;
+      color: var(--dark);
+      text-align: center;
+      margin-bottom: 14px;
+    }
+
+    /* ============================
+       SOLUTION
+    ============================ */
+    .solution-sec { background: var(--navy); text-align: center; }
+    .solution-sec h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(1.6rem, 5vw, 2rem);
+      font-weight: 900;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+
+    /* ============================
+       PRICING
+    ============================ */
+    .pricing-sec { background: var(--peach); text-align: center; }
+    .pricing-sec .price-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 6px;
+    }
+    .pricing-sec .price-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(1.5rem, 5vw, 2rem);
+      font-weight: 900;
+      color: var(--navy);
+      line-height: 1.25;
+      margin-bottom: 24px;
+    }
+    .price-deck {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 28px 0 32px;
+    }
+    .price-card {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 28px 22px;
+      min-width: 180px;
+      max-width: 220px;
+      box-shadow: 0 5px 22px rgba(0,0,0,.1);
+      text-align: center;
+    }
+    .price-card.best {
+      background: var(--navy);
+      transform: scale(1.06);
+      box-shadow: 0 8px 30px rgba(27,31,75,.3);
+    }
+    .price-card .tier {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--orange);
+      margin-bottom: 8px;
+    }
+    .price-card.best .tier { color: var(--gold); }
+    .price-card .amt {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: var(--navy);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .price-card.best .amt { color: var(--white); }
+    .price-card .desc {
+      font-size: .88rem;
+      line-height: 1.55;
+      color: #666;
+    }
+    .price-card.best .desc { color: rgba(255,255,255,.75); }
+
+    .cta-btn {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 1.05rem;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      padding: 18px 44px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 7px 22px rgba(212,98,40,.42);
+      animation: ctaPulse 2.5s ease-in-out infinite;
+      margin: 12px 8px;
+    }
+    @keyframes ctaPulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 7px 22px rgba(212,98,40,.42); }
+      50%       { transform: scale(1.035); box-shadow: 0 10px 28px rgba(212,98,40,.55); }
+    }
+
+    /* ============================
+       FINAL CTA
+    ============================ */
+    .final-sec { background: var(--navy); text-align: center; padding: 72px 24px; }
+    .final-sec h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(1.35rem, 4.5vw, 1.75rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.55;
+      max-width: 560px;
+      margin: 0 auto 20px;
+    }
+    .final-sec .final-line {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: var(--peach);
+      margin: 14px 0 22px;
+    }
+
+    /* ============================
+       FOOTER
+    ============================ */
+    .footer {
+      background: #111;
+      color: #888;
+      text-align: center;
+      padding: 20px 24px;
+      font-size: .82rem;
+      letter-spacing: .5px;
+    }
+
+    /* ============================
+       CHAT MODAL
+    ============================ */
+    .chat-overlay {
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(10,12,30,.75);
+      backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity .3s ease;
+    }
+    .chat-overlay.open { opacity: 1; pointer-events: all; }
+
+    .chat-window {
+      background: var(--white);
+      border-radius: 20px;
+      width: min(94vw, 420px);
+      max-height: 85vh;
+      display: flex; flex-direction: column;
+      box-shadow: 0 24px 80px rgba(0,0,0,.45);
+      overflow: hidden;
+      transform: translateY(24px) scale(.97);
+      transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+    }
+    .chat-overlay.open .chat-window {
+      transform: translateY(0) scale(1);
+    }
+
+    .chat-header {
+      background: var(--navy);
+      padding: 16px 20px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .chat-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--orange), var(--pink));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900; font-size: 1rem; color: white;
+      flex-shrink: 0;
+    }
+    .chat-header-info h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800; font-size: .95rem; color: var(--white);
+      margin-bottom: 2px;
+    }
+    .chat-header-info p {
+      font-size: .75rem; color: rgba(255,255,255,.55);
+    }
+    .chat-close {
+      margin-left: auto; background: none; border: none;
+      color: rgba(255,255,255,.6); font-size: 1.4rem;
+      cursor: pointer; line-height: 1; padding: 4px;
+    }
+    .chat-close:hover { color: white; }
+
+    .chat-messages {
+      flex: 1; overflow-y: auto; padding: 20px 16px;
+      display: flex; flex-direction: column; gap: 12px;
+      background: #f4f4f8;
+    }
+    .chat-messages::-webkit-scrollbar { width: 4px; }
+    .chat-messages::-webkit-scrollbar-thumb { background: #ccc; border-radius: 2px; }
+
+    .bubble {
+      max-width: 82%;
+      padding: 12px 15px;
+      border-radius: 18px;
+      font-size: .95rem;
+      line-height: 1.55;
+      animation: bubblePop .3s cubic-bezier(.34,1.56,.64,1);
+    }
+    @keyframes bubblePop {
+      from { opacity: 0; transform: scale(.85) translateY(8px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .bubble.bot {
+      background:
+        linear-gradient(white, white) padding-box,
+        linear-gradient(135deg, #2EC4BC 0%, #F5D440 50%, #C96070 100%) border-box;
+      border: 2px solid transparent;
+      color: var(--dark);
+      border-bottom-left-radius: 5px;
+      align-self: flex-start;
+      box-shadow: 0 2px 8px rgba(0,0,0,.07);
+    }
+    .bubble.user {
+      background: #007AFF;
+      color: var(--white);
+      border-bottom-right-radius: 5px;
+      align-self: flex-end;
+    }
+    .typing-indicator {
+      display: flex; gap: 5px; padding: 14px 16px;
+      background:
+        linear-gradient(white, white) padding-box,
+        linear-gradient(135deg, #2EC4BC 0%, #F5D440 50%, #C96070 100%) border-box;
+      border: 2px solid transparent;
+      border-radius: 18px;
+      border-bottom-left-radius: 5px;
+      align-self: flex-start;
+      box-shadow: 0 2px 8px rgba(0,0,0,.07);
+      width: 62px;
+    }
+    .typing-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #bbb;
+      animation: typingBounce 1.2s ease-in-out infinite;
+    }
+    .typing-dot:nth-child(2) { animation-delay: .2s; }
+    .typing-dot:nth-child(3) { animation-delay: .4s; }
+    @keyframes typingBounce {
+      0%, 80%, 100% { transform: translateY(0); }
+      40%            { transform: translateY(-6px); background: var(--orange); }
+    }
+
+    .chat-input-row {
+      padding: 14px 16px;
+      border-top: 1px solid #eee;
+      display: flex; gap: 10px; align-items: center;
+      background: var(--white);
+    }
+    .chat-input {
+      flex: 1; border: 1.5px solid #e0e0e0; border-radius: 24px;
+      padding: 11px 16px; font-size: .95rem;
+      font-family: 'Lato', sans-serif;
+      outline: none; transition: border-color .2s;
+    }
+    .chat-input:focus { border-color: var(--orange); }
+    .chat-send {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--orange); border: none;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; flex-shrink: 0;
+      transition: transform .15s, background .15s;
+    }
+    .chat-send:hover { transform: scale(1.1); background: #b8521e; }
+    .chat-progress {
+      height: 3px; background: var(--peach);
+    }
+    .chat-progress-bar {
+      height: 100%; background: var(--orange);
+      border-radius: 0 2px 2px 0;
+      transition: width .4s ease;
+    }
+
+    /* ============================
+       RESPONSIVE
+    ============================ */
+    @media (max-width: 560px) {
+      .price-deck { flex-direction: column; align-items: center; }
+      .price-card.best { transform: scale(1); }
+      .lasso-text { padding: 14px 28px; font-size: .97rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- =========================================
+     HERO
+========================================= -->
+<section class="hero">
+  <div class="container">
+    <div class="badge reveal up">2 Hour Live Workshop</div>
+
+    <h1 class="reveal up">Turn Conversations<br>Into Assets.</h1>
+
+    <div class="brand-row reveal up">
+      <span class="brand-name">CLAUDE</span>
+      <span class="brand-bolt">&#9889;</span>
+      <span class="brand-tag">System Over Self</span>
+    </div>
+
+    <!-- PHOTO SLOT 1 — replace the div below with your img tag -->
+    <div class="photo-frame reveal scale" id="photo1" style="min-height:420px;">
+      <!-- TO ADD YOUR PHOTO: replace this div's content with:
+           <img src="YOUR-PHOTO-1.jpg" alt="Workshop hero photo" />
+      -->
+      <div class="photo-label">
+        Place Photo 1 Here<br>
+        <span style="font-size:.85rem; opacity:.75;">(Woman on AI tool blocks image)</span>
+      </div>
+    </div>
+
+    <div class="hook-card reveal up">
+      <p>Struggling to keep up with follow-ups, notes, and deliverables after every call?<br><br>
+      <strong>Learn the exact system that turns conversations into assets automatically.</strong></p>
+    </div>
+
+    <p class="hero-sub reveal up">
+      Build a system that automatically turns your calls, meetings, and pitches into
+      presentations, follow-ups, and client-ready deliverables.
+    </p>
+  </div>
+</section>
+
+<!-- Arrow -->
+<div class="arrow-block" style="background:var(--peach);">
+  <svg class="chevron" width="52" height="30" viewBox="0 0 52 30" fill="none"><polyline points="4,4 26,26 48,4" stroke="#0B3535" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <svg class="chevron" width="52" height="30" viewBox="0 0 52 30" fill="none"><polyline points="4,4 26,26 48,4" stroke="#0B3535" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <svg class="chevron" width="52" height="30" viewBox="0 0 52 30" fill="none"><polyline points="4,4 26,26 48,4" stroke="#0B3535" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</div>
+
+<!-- =========================================
+     VSL SECTION
+========================================= -->
+<section id="vsl-section" style="background:var(--navy); padding:52px 24px;">
+  <div class="container" style="text-align:center;">
+    <p style="font-family:'Montserrat',sans-serif; font-size:.85rem; font-weight:800; letter-spacing:3px; text-transform:uppercase; color:var(--orange); margin-bottom:10px;">Watch This First</p>
+    <h2 style="font-family:'Montserrat',sans-serif; font-size:clamp(1.5rem,5vw,2rem); font-weight:900; color:var(--white); line-height:1.3; margin-bottom:28px;">See Exactly How The System Works<br>Before You Register</h2>
+    <!-- ============================================================
+         VSL VIDEO BLOCK
+         Replace the div below with your actual video embed:
+           <iframe src="https://www.youtube.com/embed/YOUR_ID?autoplay=0"
+                   width="100%" height="100%" frameborder="0"
+                   allow="autoplay; fullscreen" allowfullscreen></iframe>
+         Or for Vimeo / Wistia / Loom — paste their embed code here.
+    ============================================================ -->
+    <div class="vsl-wrap reveal scale" style="position:relative; max-width:620px; margin:0 auto 28px; border-radius:14px; overflow:hidden; background:#000; aspect-ratio:16/9; box-shadow:0 14px 50px rgba(0,0,0,.6);">
+      <!-- Placeholder play button — remove once you paste your embed -->
+      <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; background:linear-gradient(135deg,#0B3535 0%,#1A5555 100%);">
+        <div onclick="this.closest('.vsl-wrap').innerHTML='<div style=\'padding:20px; color:white; font-family:Montserrat,sans-serif;\'>Paste your video embed code here</div>'" style="width:72px; height:72px; border-radius:50%; background:var(--orange); display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 0 0 12px rgba(212,98,40,.25); transition:transform .2s;">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><polygon points="10,6 24,14 10,22" fill="white"/></svg>
+        </div>
+        <p style="color:rgba(255,255,255,.65); font-family:'Montserrat',sans-serif; font-size:.85rem; margin-top:16px; letter-spacing:1px;">[ YOUR VIDEO GOES HERE ]</p>
+      </div>
+    </div>
+    <button class="cta-btn" onclick="openChat()" style="font-size:1rem;">Reserve My Free Spot Now</button>
+    <p style="color:rgba(255,255,255,.55); font-size:.82rem; margin-top:10px; font-style:italic;">Free to attend. Limited seats available.</p>
+  </div>
+</section>
+
+<!-- =========================================
+     FORMULA SECTION
+========================================= -->
+<section class="formula-sec">
+  <div class="container">
+    <h2 class="sec-title italic reveal up">The Asset System Framework</h2>
+    <div class="divider"></div>
+
+    <ul class="check-list" id="formula-list">
+      <li>
+        <div class="ci">&#10003;</div>
+        <div>
+          <div class="item-head">The Capture System</div>
+          <div class="item-sub">Turn conversations into structured input instantly</div>
+        </div>
+      </li>
+      <li>
+        <div class="ci">&#10003;</div>
+        <div>
+          <div class="item-head">The Conversion System</div>
+          <div class="item-sub">Transform raw input into polished, client-ready presentations</div>
+        </div>
+      </li>
+      <li>
+        <div class="ci">&#10003;</div>
+        <div>
+          <div class="item-head">The Automation System</div>
+          <div class="item-sub">Connect everything so your system runs without you</div>
+        </div>
+      </li>
+      <li>
+        <div class="ci">&#10003;</div>
+        <div>
+          <div class="item-head">The Delivery System</div>
+          <div class="item-sub">Generate follow-ups and client-ready assets automatically</div>
+        </div>
+      </li>
+    </ul>
+
+    <!-- Animated circle lasso -->
+    <div style="text-align:center;">
+      <div class="lasso-wrap" id="lasso-wrap">
+        <span class="lasso-text">Your system that works after every call.</span>
+        <svg class="lasso-svg" id="lasso-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <ellipse cx="50" cy="50" rx="48" ry="44" vector-effect="non-scaling-stroke"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Arrow -->
+<div class="arrow-block" style="background:var(--white);">
+  <svg class="chevron" width="52" height="30" viewBox="0 0 52 30" fill="none"><polyline points="4,4 26,26 48,4" stroke="#D46228" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <svg class="chevron" width="52" height="30" viewBox="0 0 52 30" fill="none"><polyline points="4,4 26,26 48,4" stroke="#D46228" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</div>
+
+<!-- =========================================
+     CORE PROMISE
+========================================= -->
+<section class="promise-sec">
+  <div class="container">
+    <p class="reveal up">
+      The proven system to capture, structure, and automate the value from
+      <u>every conversation.</u>
+    </p>
+  </div>
+</section>
+
+<!-- =========================================
+     PROBLEM SECTION
+========================================= -->
+<section class="problem-sec">
+  <div class="container">
+    <h2 class="reveal up">Most entrepreneurs have conversations every day...</h2>
+    <p class="intro reveal up">but nothing is captured, structured, or reused.</p>
+    <p class="so-they reveal up">So they:</p>
+
+    <ul class="check-list" id="problem-list">
+      <li>
+        <div class="ci x">&#10005;</div>
+        <span class="item-text">Repeat themselves constantly</span>
+      </li>
+      <li>
+        <div class="ci x">&#10005;</div>
+        <span class="item-text">Lose valuable insights</span>
+      </li>
+      <li>
+        <div class="ci x">&#10005;</div>
+        <span class="item-text">Waste hours on follow-ups</span>
+      </li>
+      <li>
+        <div class="ci x">&#10005;</div>
+        <span class="item-text">Miss opportunities to convert</span>
+      </li>
+    </ul>
+
+    <div class="emph-box reveal scale">You're working... but nothing is compounding.</div>
+  </div>
+</section>
+
+<!-- Arrow -->
+<div class="arrow-block" style="background:var(--light-peach);">
+  <svg class="chevron" width="52" height="30" viewBox="0 0 52 30" fill="none"><polyline points="4,4 26,26 48,4" stroke="#0B3535" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <svg class="chevron" width="52" height="30" viewBox="0 0 52 30" fill="none"><polyline points="4,4 26,26 48,4" stroke="#0B3535" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</div>
+
+<!-- =========================================
+     WHAT YOU'LL LEARN
+========================================= -->
+<section class="learn-sec">
+  <div class="container">
+    <h2 class="sec-title reveal up">What You'll Learn Inside<br>"Turn Conversations Into Assets"</h2>
+    <div class="divider"></div>
+
+    <ul class="check-list" id="learn-list">
+      <li>
+        <div class="ci">&#10003;</div>
+        <span class="item-text">How to turn any call into a structured AI input</span>
+      </li>
+      <li>
+        <div class="ci">&#10003;</div>
+        <span class="item-text">How to generate presentations instantly using AI</span>
+      </li>
+      <li>
+        <div class="ci">&#10003;</div>
+        <span class="item-text">How to automate your workflow so your system does the heavy lifting</span>
+      </li>
+      <li>
+        <div class="ci">&#10003;</div>
+        <span class="item-text">How to create repeatable systems from conversations</span>
+      </li>
+      <li>
+        <div class="ci">&#10003;</div>
+        <span class="item-text">How to eliminate manual follow-ups and busy work</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- =========================================
+     TOOLS + PHOTO 1
+========================================= -->
+<section class="tools-sec">
+  <div class="container">
+    <h2 class="reveal up" style="font-family:'Montserrat',sans-serif; font-size:clamp(1.7rem,5.5vw,2.3rem); font-weight:900; color:var(--navy); margin-bottom:6px;">System Over Self.</h2>
+    <p class="reveal up" style="font-family:'Montserrat',sans-serif; font-size:1.05rem; color:var(--navy); font-style:italic; margin-bottom:24px;">You don't need more hustle. You need a system that works for you.</p>
+
+    <!-- PHOTO SLOT 1 (second placement) — replace with your img tag -->
+    <div class="photo-frame reveal scale" style="min-height:440px; margin: 24px auto;">
+      <!-- TO ADD YOUR PHOTO: replace this div's content with:
+           <img src="YOUR-PHOTO-1.jpg" alt="AI tools workshop" />
+      -->
+      <div class="photo-label">
+        Place Photo 1 Here<br>
+        <span style="font-size:.85rem; opacity:.75;">(Woman seated on AI tool blocks)</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================
+     RESULTS / PROOF
+========================================= -->
+<section class="results-sec">
+  <div class="container">
+    <h2 class="sec-title reveal up">Turn One Call Into:</h2>
+    <div class="divider"></div>
+
+    <div class="result-card" id="rc1">
+      <h3>A Full Presentation</h3>
+      <p>Your conversation becomes a polished deck in minutes, ready to send to any client or prospect.</p>
+    </div>
+    <div class="result-card" id="rc2">
+      <h3>A Polished Follow-Up</h3>
+      <p>Never spend another hour writing recap emails. Your system generates them for you automatically after every call.</p>
+    </div>
+    <div class="result-card" id="rc3">
+      <h3>A Reusable Asset</h3>
+      <p>Every conversation becomes a building block in your content library and business toolkit.</p>
+    </div>
+
+    <div class="emph-box navy reveal scale" style="margin-top:28px;">
+      Save hours per week on manual work and create systems that scale your time.
+    </div>
+  </div>
+</section>
+
+<!-- Arrow -->
+<div class="arrow-block" style="background:var(--light-peach);">
+  <svg class="chevron" width="52" height="30" viewBox="0 0 52 30" fill="none"><polyline points="4,4 26,26 48,4" stroke="#D46228" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <svg class="chevron" width="52" height="30" viewBox="0 0 52 30" fill="none"><polyline points="4,4 26,26 48,4" stroke="#D46228" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <svg class="chevron" width="52" height="30" viewBox="0 0 52 30" fill="none"><polyline points="4,4 26,26 48,4" stroke="#D46228" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</div>
+
+<!-- =========================================
+     A YEAR FROM NOW
+========================================= -->
+<section class="year-sec">
+  <div class="container">
+    <h2 class="reveal up">A Year From Now, You're Going To Wish You Started Today...</h2>
+    <p class="reveal up">Imagine waking up knowing your business is running on systems you built from your own conversations. Every call, every pitch, every meeting producing deliverables automatically while you focus on what matters.</p>
+  </div>
+</section>
+
+<!-- =========================================
+     BONUSES
+========================================= -->
+<section class="bonuses-sec">
+  <div class="container">
+    <h2 class="sec-title reveal up">Bonuses When You Join</h2>
+    <div class="divider"></div>
+    <p class="reveal up" style="text-align:center; font-size:1.1rem; margin-bottom:28px;">Everything you need to hit the ground running</p>
+
+    <div class="bonus-grid" id="bonus-grid">
+      <div class="bonus-card">
+        <div class="bonus-icon o">&#9654;</div>
+        <p>Plug-and-play AI conversation prompts</p>
+      </div>
+      <div class="bonus-card">
+        <div class="bonus-icon p">&#9654;</div>
+        <p>Presentation templates (ready to fill)</p>
+      </div>
+      <div class="bonus-card">
+        <div class="bonus-icon n">&#9654;</div>
+        <p>Workflow automation blueprint</p>
+      </div>
+      <div class="bonus-card">
+        <div class="bonus-icon o">&#9654;</div>
+        <p>Automation map (visual system)</p>
+      </div>
+      <div class="bonus-card">
+        <div class="bonus-icon p">&#9654;</div>
+        <p>Follow-up templates</p>
+      </div>
+      <div class="bonus-card">
+        <div class="bonus-icon g">&#9654;</div>
+        <p>Replay access</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================
+     WHO IT'S FOR
+========================================= -->
+<section class="for-sec">
+  <div class="container">
+    <h2 class="sec-title reveal up">This Workshop Is For You If:</h2>
+    <div class="divider"></div>
+
+    <ul class="check-list" id="for-list">
+      <li>
+        <div class="ci">&#10003;</div>
+        <span class="item-text">You're on calls, meetings, or pitches regularly</span>
+      </li>
+      <li>
+        <div class="ci">&#10003;</div>
+        <span class="item-text">You want to stop repeating yourself</span>
+      </li>
+      <li>
+        <div class="ci">&#10003;</div>
+        <span class="item-text">You want systems instead of manual work</span>
+      </li>
+      <li>
+        <div class="ci">&#10003;</div>
+        <span class="item-text">You're ready to leverage AI for real business use</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- =========================================
+     PHOTO 2 — PERSONAL / WORKSHOP PROMO
+========================================= -->
+<section class="personal-sec">
+  <div class="container">
+    <!-- PHOTO SLOT 2 — replace with your img tag -->
+    <div class="photo-frame reveal scale" style="min-height:500px;">
+      <!-- TO ADD YOUR PHOTO: replace this div's content with:
+           <img src="YOUR-PHOTO-2.jpg" alt="Workshop promo photo" />
+      -->
+      <div class="photo-label">
+        Place Photo 2 Here<br>
+        <span style="font-size:.85rem; opacity:.75;">(Workshop promo / woman in blue dress)</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================
+     EMOTIONAL SECTION
+========================================= -->
+<section class="emotional-sec">
+  <div class="container">
+    <h2 class="reveal up">Maybe You've Been Feeling Like...</h2>
+    <div class="divider"></div>
+
+    <ul class="check-list" id="feeling-list">
+      <li>
+        <div class="ci dash">&#8212;</div>
+        <span class="item-text">You're always "on" but nothing is organized</span>
+      </li>
+      <li>
+        <div class="ci dash">&#8212;</div>
+        <span class="item-text">You finish calls and still have more work to do</span>
+      </li>
+      <li>
+        <div class="ci dash">&#8212;</div>
+        <span class="item-text">You're overwhelmed trying to keep up</span>
+      </li>
+      <li>
+        <div class="ci dash">&#8212;</div>
+        <span class="item-text">You know you should be using AI but don't know how</span>
+      </li>
+    </ul>
+
+    <div class="emph-box reveal scale" style="margin-top:28px;">
+      You're not inefficient. You just don't have a system.
+    </div>
+  </div>
+</section>
+
+<!-- =========================================
+     SOLUTION
+========================================= -->
+<section class="solution-sec">
+  <div class="container">
+    <h2 class="reveal up">So How Do We Change That?</h2>
+    <div class="divider light"></div>
+
+    <ul class="check-list light" id="solution-list">
+      <li>
+        <div class="ci" style="background:var(--orange);">&#10003;</div>
+        <span class="item-text" style="color:rgba(255,255,255,.9);">Stop relying on memory and manual work</span>
+      </li>
+      <li>
+        <div class="ci" style="background:var(--orange);">&#10003;</div>
+        <span class="item-text" style="color:rgba(255,255,255,.9);">Start building systems that execute for you</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- Arrow -->
+<div class="arrow-block" style="background:var(--navy); padding-bottom:30px;">
+  <svg class="chevron" width="52" height="30" viewBox="0 0 52 30" fill="none"><polyline points="4,4 26,26 48,4" stroke="#F5C4B2" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <svg class="chevron" width="52" height="30" viewBox="0 0 52 30" fill="none"><polyline points="4,4 26,26 48,4" stroke="#F5C4B2" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <svg class="chevron" width="52" height="30" viewBox="0 0 52 30" fill="none"><polyline points="4,4 26,26 48,4" stroke="#F5C4B2" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</div>
+
+<!-- =========================================
+     FREE REGISTRATION CTA
+========================================= -->
+<section class="pricing-sec" style="background:var(--peach); padding:60px 24px; text-align:center;">
+  <div class="container">
+    <div class="reveal up" style="display:inline-block; background:var(--orange); color:white; font-family:'Montserrat',sans-serif; font-size:.8rem; font-weight:800; letter-spacing:3px; text-transform:uppercase; padding:6px 18px; border-radius:30px; margin-bottom:18px;">Free Live Workshop</div>
+    <h2 class="reveal up" style="font-family:'Montserrat',sans-serif; font-size:clamp(1.7rem,5.5vw,2.4rem); font-weight:900; color:var(--navy); line-height:1.15; margin-bottom:14px;">Reserve Your Seat Now.<br>It Costs You Nothing.</h2>
+    <p class="reveal up" style="font-size:1.1rem; line-height:1.7; max-width:520px; margin:0 auto 28px; color:var(--dark);">Join the live 2-hour workshop and walk away with a complete system that captures, structures, and automates the value from every conversation you have.</p>
+    <div class="reveal scale" style="background:var(--white); border-radius:14px; padding:28px 24px; max-width:460px; margin:0 auto 24px; box-shadow:0 6px 24px rgba(0,0,0,.1);">
+      <div style="display:flex; gap:14px; margin-bottom:12px; align-items:flex-start;">
+        <div class="ci" style="min-width:28px; width:28px; height:28px; font-size:.85rem;">&#10003;</div>
+        <span style="font-size:1rem; line-height:1.55;">Live 2-hour workshop with direct instruction</span>
+      </div>
+      <div style="display:flex; gap:14px; margin-bottom:12px; align-items:flex-start;">
+        <div class="ci" style="min-width:28px; width:28px; height:28px; font-size:.85rem;">&#10003;</div>
+        <span style="font-size:1rem; line-height:1.55;">Walk away with a working system you can use the same day</span>
+      </div>
+      <div style="display:flex; gap:14px; align-items:flex-start;">
+        <div class="ci" style="min-width:28px; width:28px; height:28px; font-size:.85rem;">&#10003;</div>
+        <span style="font-size:1rem; line-height:1.55;">Replay available as a pre-workshop add-on after you register</span>
+      </div>
+    </div>
+    <button class="cta-btn reveal scale" onclick="openChat()">Yes, Reserve My Free Seat</button>
+    <p class="reveal up" style="font-size:.82rem; color:#888; margin-top:10px; font-style:italic;">Seats are limited. Secure yours before they fill up.</p>
+  </div>
+</section>
+
+<!-- =========================================
+     FINAL CLOSE
+========================================= -->
+<section class="final-sec">
+  <div class="container">
+    <h2 class="reveal up">
+      If your business runs on conversations...<br>
+      it's time those conversations start producing assets.
+    </h2>
+    <div class="divider light"></div>
+    <p class="final-line reveal up">Join the workshop and build your first system.</p>
+    <button class="cta-btn reveal scale" onclick="openChat()">Yes, I'm Ready To Build My System — Free</button>
+  </div>
+</section>
+
+<!-- Arrow (final) -->
+<div class="arrow-block" style="background:var(--navy); padding-top:0; padding-bottom:28px;">
+  <svg class="chevron" width="60" height="36" viewBox="0 0 60 36" fill="none"><polyline points="5,5 30,31 55,5" stroke="#F5C4B2" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <svg class="chevron" width="60" height="36" viewBox="0 0 60 36" fill="none"><polyline points="5,5 30,31 55,5" stroke="#F5C4B2" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <svg class="chevron" width="60" height="36" viewBox="0 0 60 36" fill="none"><polyline points="5,5 30,31 55,5" stroke="#F5C4B2" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</div>
+
+<div class="footer">Turn Conversations Into Assets &mdash; 2-Hour Live Workshop</div>
+
+<!-- =========================================
+     CHAT REGISTRATION MODAL
+========================================= -->
+<div class="chat-overlay" id="chatOverlay">
+  <div class="chat-window">
+    <div class="chat-header">
+      <div class="chat-avatar">R</div>
+      <div class="chat-header-info">
+        <h4>Workshop Registration</h4>
+        <p>Usually replies instantly</p>
+      </div>
+      <button class="chat-close" onclick="closeChat()" title="Close">&#10005;</button>
+    </div>
+    <div class="chat-progress">
+      <div class="chat-progress-bar" id="progressBar" style="width:0%"></div>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-input-row" id="inputRow">
+      <input class="chat-input" id="chatInput" type="text" placeholder="Type your answer..." autocomplete="off" />
+      <button class="chat-send" id="sendBtn" onclick="handleSend()">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M2 9L16 9M16 9L10 3M16 9L10 15" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- =========================================
+     JAVASCRIPT — SCROLL ANIMATIONS
+========================================= -->
+<script>
+  /* ------------------------------------------
+     General IntersectionObserver for .reveal
+  ------------------------------------------ */
+  const revealEls = document.querySelectorAll('.reveal');
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        revealObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => revealObs.observe(el));
+
+  /* ------------------------------------------
+     Staggered check-list items
+  ------------------------------------------ */
+  function staggerList(id, delayMs) {
+    const list = document.getElementById(id);
+    if (!list) return;
+    const items = list.querySelectorAll('li');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          items.forEach((item, i) => {
+            setTimeout(() => item.classList.add('visible'), i * delayMs);
+          });
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    obs.observe(list);
+  }
+
+  staggerList('formula-list', 200);
+  staggerList('learn-list',   180);
+  staggerList('problem-list', 190);
+  staggerList('for-list',     200);
+  staggerList('feeling-list', 200);
+  staggerList('solution-list',220);
+
+  /* ------------------------------------------
+     Bonus cards stagger
+  ------------------------------------------ */
+  const bonusGrid = document.getElementById('bonus-grid');
+  if (bonusGrid) {
+    const cards = bonusGrid.querySelectorAll('.bonus-card');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          cards.forEach((c, i) => setTimeout(() => c.classList.add('visible'), i * 110));
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    obs.observe(bonusGrid);
+  }
+
+  /* ------------------------------------------
+     Result cards stagger
+  ------------------------------------------ */
+  ['rc1','rc2','rc3'].forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          setTimeout(() => el.classList.add('visible'), i * 220);
+          obs.unobserve(el);
+        }
+      });
+    }, { threshold: 0.15 });
+    obs.observe(el);
+  });
+
+  /* ------------------------------------------
+     Circle / Lasso animation
+  ------------------------------------------ */
+  const lassoWrap = document.getElementById('lasso-wrap');
+  const lassoSvg  = document.getElementById('lasso-svg');
+  if (lassoWrap && lassoSvg) {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          lassoSvg.classList.add('draw');
+          obs.unobserve(lassoWrap);
+        }
+      });
+    }, { threshold: 0.5 });
+    obs.observe(lassoWrap);
+  }
+
+  /* ------------------------------------------
+     Smooth CTA button hover pop
+  ------------------------------------------ */
+  document.querySelectorAll('.cta-btn').forEach(btn => {
+    btn.addEventListener('mouseenter', () => {
+      btn.style.animationPlayState = 'paused';
+      btn.style.transform = 'scale(1.06)';
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.animationPlayState = 'running';
+      btn.style.transform = '';
+    });
+  });
+
+  /* ==========================================
+     CHAT REGISTRATION FLOW
+  ========================================== */
+  const steps = [
+    { field: 'firstName', botText: "Hey! I'm so glad you're here. Before we lock in your spot, I just need a couple of quick details.\n\nWhat's your first name?", placeholder: "Your first name..." },
+    { field: 'lastName',  botText: null, placeholder: "Your last name..." },
+    { field: 'email',     botText: null, placeholder: "your@email.com" },
+    { field: 'phone',     botText: null, placeholder: "Your phone number..." }
+  ];
+
+  let currentStep = 0;
+  const collected = {};
+  const progress = [0, 28, 55, 78, 100];
+
+  function openChat() {
+    document.getElementById('chatOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    if (currentStep === 0 && document.getElementById('chatMessages').children.length === 0) {
+      setTimeout(() => addBotMessage(steps[0].botText, steps[0].placeholder), 400);
+    }
+  }
+  function closeChat() {
+    document.getElementById('chatOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('chatOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeChat();
+  });
+  document.getElementById('chatInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') handleSend();
+  });
+
+  function setProgress(pct) {
+    document.getElementById('progressBar').style.width = pct + '%';
+  }
+
+  function addBotMessage(text, nextPlaceholder) {
+    const msgs = document.getElementById('chatMessages');
+    // Show typing indicator
+    const typing = document.createElement('div');
+    typing.className = 'typing-indicator';
+    typing.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+    msgs.appendChild(typing);
+    msgs.scrollTop = msgs.scrollHeight;
+
+    setTimeout(() => {
+      msgs.removeChild(typing);
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble bot';
+      bubble.style.whiteSpace = 'pre-line';
+      bubble.textContent = text;
+      msgs.appendChild(bubble);
+      msgs.scrollTop = msgs.scrollHeight;
+      if (nextPlaceholder) {
+        const inp = document.getElementById('chatInput');
+        inp.placeholder = nextPlaceholder;
+        inp.type = currentStep === 2 ? 'email' : currentStep === 3 ? 'tel' : 'text';
+        inp.disabled = false;
+        inp.focus();
+      }
+    }, 1100);
+  }
+
+  function addUserMessage(text) {
+    const msgs = document.getElementById('chatMessages');
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble user';
+    bubble.textContent = text;
+    msgs.appendChild(bubble);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function handleSend() {
+    const inp = document.getElementById('chatInput');
+    const val = inp.value.trim();
+    if (!val) return;
+
+    inp.disabled = true;
+    addUserMessage(val);
+    collected[steps[currentStep].field] = val;
+    inp.value = '';
+    setProgress(progress[currentStep + 1]);
+    currentStep++;
+
+    if (currentStep === 1) {
+      setTimeout(() => addBotMessage(
+        `Nice to meet you, ${collected.firstName}! What's your last name?`,
+        steps[1].placeholder
+      ), 300);
+    } else if (currentStep === 2) {
+      setTimeout(() => addBotMessage(
+        `Perfect, ${collected.firstName}! What email address should we send your workshop access to?`,
+        steps[2].placeholder
+      ), 300);
+    } else if (currentStep === 3) {
+      setTimeout(() => addBotMessage(
+        `Almost done! What's the best phone number to reach you? We'll send a reminder before we go live.`,
+        steps[3].placeholder
+      ), 300);
+    } else if (currentStep === 4) {
+      // Done — thank and redirect
+      document.getElementById('inputRow').style.display = 'none';
+      setTimeout(() => {
+        addBotMessage(
+          `You're officially registered, ${collected.firstName}!\n\nWe've got your spot saved. Check your inbox for confirmation.\n\nOne more thing — we put together something special for people who register early. Taking you there now...`,
+          null
+        );
+        setTimeout(() => {
+          window.location.href = 'vip-upsell.html';
+        }, 3800);
+      }, 300);
+    }
+  }
+</script>
+</body>
+</html>

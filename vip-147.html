@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>One More Thing — All-Access for $147 | Turn Conversations Into Assets</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,900&family=Lato:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --peach:  #F2FAFA;
+      --lpeach: #E5F6F5;
+      --orange: #C96070;
+      --navy:   #0B3535;
+      --dark:   #071E1E;
+      --white:  #FFFFFF;
+      --gold:   #F5D440;
+      --pink:   #2EC4BC;
+      --green:  #2EC4BC;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Lato', sans-serif; background: var(--dark); color: var(--white); overflow-x: hidden; }
+    .container { max-width: 700px; margin: 0 auto; padding: 0 24px; }
+    .divider { width: 56px; height: 5px; background: var(--gold); margin: 16px auto 24px; border-radius: 3px; }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity .5s ease, transform .5s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    .urgency-bar {
+      background: linear-gradient(90deg, var(--navy) 0%, #1A5555 100%);
+      padding: 12px 20px; text-align: center;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .88rem; font-weight: 800;
+      letter-spacing: .5px; color: var(--white);
+      border-bottom: 2px solid var(--gold);
+    }
+    .urgency-bar span { color: var(--gold); }
+
+    .countdown-wrap { background: #071E1E; padding: 18px 20px; text-align: center; }
+    .countdown-label {
+      font-family: 'Montserrat', sans-serif; font-size: .8rem;
+      font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: 10px;
+    }
+    .countdown-tiles { display: flex; gap: 10px; justify-content: center; }
+    .ct { text-align: center; }
+    .ct-num {
+      background: var(--navy); color: var(--gold);
+      font-family: 'Montserrat', sans-serif; font-size: 2rem; font-weight: 900;
+      padding: 10px 16px; border-radius: 8px; min-width: 60px;
+      display: inline-block; line-height: 1;
+    }
+    .ct-label { font-size: .7rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,.4); margin-top: 5px; }
+    .ct-sep { font-size: 2rem; font-weight: 900; color: var(--gold); line-height: 2.4; }
+
+    .hero {
+      background: linear-gradient(160deg, #071E1E 0%, var(--navy) 100%);
+      padding: 56px 24px 44px; text-align: center; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at top center, rgba(245,200,66,.1) 0%, transparent 65%);
+    }
+    .hero > * { position: relative; z-index: 1; }
+    .vip-badge {
+      display: inline-block; background: var(--gold); color: var(--dark);
+      font-family: 'Montserrat', sans-serif; font-size: .8rem; font-weight: 900;
+      letter-spacing: 3px; text-transform: uppercase;
+      padding: 7px 18px; border-radius: 30px; margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(1.9rem, 6vw, 2.8rem); font-weight: 900;
+      color: var(--white); line-height: 1.1; margin-bottom: 16px;
+    }
+    .hero h1 span { color: var(--gold); }
+    .hero p {
+      font-size: 1.1rem; line-height: 1.75;
+      color: rgba(255,255,255,.8); max-width: 560px; margin: 0 auto;
+    }
+
+    .vsl-section { background: #000; }
+    .vsl-wrap {
+      position: relative; max-width: 100%; aspect-ratio: 16/9;
+      background: #071E1E; overflow: hidden;
+    }
+    .vsl-wrap iframe, .vsl-wrap video {
+      position: absolute; inset: 0; width: 100%; height: 100%; border: none;
+    }
+    .vsl-placeholder {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #0B3535 0%, #1A5555 100%);
+    }
+    .play-ring {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: var(--gold); display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 0 16px rgba(245,200,66,.2), 0 0 0 32px rgba(245,200,66,.1);
+      animation: ringPulse 2s ease-in-out infinite; cursor: pointer;
+    }
+    @keyframes ringPulse {
+      0%, 100% { box-shadow: 0 0 0 16px rgba(245,200,66,.2), 0 0 0 32px rgba(245,200,66,.1); }
+      50%       { box-shadow: 0 0 0 22px rgba(245,200,66,.28), 0 0 0 42px rgba(245,200,66,.12); }
+    }
+    .vsl-caption {
+      background: var(--navy); text-align: center; padding: 12px 20px;
+      font-family: 'Montserrat', sans-serif; font-size: .85rem;
+      font-weight: 700; color: rgba(255,255,255,.65); letter-spacing: .5px;
+    }
+    .autoplay-note {
+      background: rgba(245,200,66,.12); border-left: 4px solid var(--gold);
+      padding: 10px 16px; font-size: .85rem;
+      color: rgba(255,255,255,.7); font-style: italic;
+    }
+
+    .new-sec { background: var(--lpeach); padding: 56px 24px; color: var(--dark); }
+    .new-sec h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(1.5rem, 5vw, 2rem); font-weight: 900;
+      color: var(--navy); text-align: center; margin-bottom: 10px;
+    }
+    .new-intro { font-size: 1.05rem; line-height: 1.75; text-align: center; max-width: 560px; margin: 0 auto 30px; color: #444; }
+    .benefit-item {
+      display: flex; align-items: flex-start; gap: 14px; margin-bottom: 18px;
+      background: var(--white); border-radius: 12px; padding: 18px 20px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.07);
+      opacity: 0; transform: translateY(16px);
+      transition: opacity .45s ease, transform .45s ease;
+    }
+    .benefit-item.visible { opacity: 1; transform: translateY(0); }
+    .benefit-icon {
+      width: 38px; height: 38px; min-width: 38px; border-radius: 50%;
+      background: var(--gold); color: var(--dark);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 1.1rem;
+    }
+    .benefit-icon.navy { background: var(--navy); color: var(--white); }
+    .benefit-text h3 {
+      font-family: 'Montserrat', sans-serif; font-weight: 800;
+      font-size: 1rem; color: var(--navy); margin-bottom: 3px;
+    }
+    .benefit-text p { font-size: .95rem; line-height: 1.55; color: #555; }
+
+    .compare-sec { background: var(--peach); padding: 56px 24px; color: var(--dark); }
+    .compare-sec h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(1.4rem, 5vw, 1.9rem); font-weight: 900;
+      color: var(--navy); text-align: center; margin-bottom: 24px;
+    }
+    .compare-table {
+      max-width: 540px; margin: 0 auto;
+      border-radius: 14px; overflow: hidden;
+      box-shadow: 0 6px 24px rgba(0,0,0,.14);
+    }
+    .compare-row {
+      display: grid; grid-template-columns: 1fr 110px 120px;
+      border-bottom: 1px solid rgba(0,0,0,.08);
+    }
+    .compare-row:last-child { border-bottom: none; }
+    .compare-cell {
+      padding: 13px 12px; font-size: .9rem; line-height: 1.45;
+      background: var(--white); display: flex;
+      align-items: center; justify-content: center; text-align: center;
+    }
+    .compare-cell.label {
+      justify-content: flex-start; text-align: left;
+      padding-left: 16px; color: var(--dark); font-size: .92rem;
+    }
+    .compare-row.header { background: var(--navy); }
+    .compare-cell.hdr {
+      background: transparent; flex-direction: column; gap: 3px; padding: 14px 10px;
+    }
+    .hdr-price { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 1.25rem; color: var(--white); line-height: 1; }
+    .hdr-label { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: .68rem; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,.5); white-space: nowrap; }
+    .hdr-replay  { background: rgba(212,98,40,.2) !important; }
+    .hdr-replay .hdr-price  { color: var(--orange); }
+    .hdr-147  { background: rgba(245,200,66,.18) !important; }
+    .hdr-147 .hdr-price  { color: var(--gold); }
+    .col-replay { background: rgba(212,98,40,.06); }
+    .col-147    { background: rgba(245,200,66,.08); }
+    .compare-row:nth-child(even) .compare-cell { background: #f7f7f7; }
+    .compare-row:nth-child(even) .col-replay    { background: rgba(212,98,40,.09); }
+    .compare-row:nth-child(even) .col-147       { background: rgba(245,200,66,.11); }
+    .compare-row:nth-child(even) .compare-cell.label { background: #f7f7f7; }
+    .tick  { color: var(--green); font-size: 1.15rem; font-weight: 900; }
+    .cross { color: #bbb; font-size: 1rem; }
+
+    .pricing-sec { background: var(--navy); padding: 56px 24px; text-align: center; }
+    .pricing-sec h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(1.5rem, 5vw, 2rem); font-weight: 900;
+      color: var(--white); margin-bottom: 8px;
+    }
+    .pricing-sec .sub { font-size: 1.05rem; color: rgba(255,255,255,.6); margin-bottom: 32px; }
+
+    .offer-card {
+      background: rgba(245,200,66,.08);
+      border: 2px solid var(--gold);
+      border-radius: 18px; padding: 34px 28px;
+      max-width: 360px; margin: 0 auto;
+      position: relative;
+    }
+    .offer-badge {
+      position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+      background: var(--gold); color: var(--dark);
+      font-family: 'Montserrat', sans-serif; font-size: .75rem; font-weight: 900;
+      letter-spacing: 2px; text-transform: uppercase;
+      padding: 5px 16px; border-radius: 20px; white-space: nowrap;
+    }
+    .offer-name {
+      font-family: 'Montserrat', sans-serif; font-weight: 800;
+      font-size: .85rem; letter-spacing: 1.5px; text-transform: uppercase;
+      color: rgba(255,255,255,.55); margin-bottom: 10px;
+    }
+    .offer-price {
+      font-family: 'Montserrat', sans-serif; font-size: 3.5rem; font-weight: 900;
+      color: var(--gold); line-height: 1; margin-bottom: 8px;
+    }
+    .offer-price sup { font-size: 1.6rem; vertical-align: super; }
+    .offer-desc { font-size: .92rem; color: rgba(255,255,255,.65); line-height: 1.55; margin-bottom: 22px; }
+    .offer-features { list-style: none; text-align: left; margin-bottom: 24px; }
+    .offer-features li {
+      display: flex; gap: 10px; font-size: .9rem;
+      color: rgba(255,255,255,.85); margin-bottom: 10px; line-height: 1.5;
+    }
+    .offer-features li::before { content: '✓'; color: var(--gold); font-weight: 900; flex-shrink: 0; }
+    .checkout-btn {
+      display: block; width: 100%; background: var(--gold); color: var(--dark);
+      font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 1rem;
+      letter-spacing: .8px; text-transform: uppercase;
+      padding: 16px 10px; border-radius: 8px; border: none;
+      cursor: pointer; text-decoration: none;
+      transition: background .15s, transform .15s;
+      animation: ctaPulse 2.5s ease-in-out infinite;
+    }
+    .checkout-btn:hover { background: #e0b534; transform: scale(1.02); animation: none; }
+    @keyframes ctaPulse {
+      0%, 100% { transform: scale(1); }
+      50%       { transform: scale(1.03); }
+    }
+    .guarantee {
+      margin-top: 20px; display: flex; align-items: center;
+      justify-content: center; gap: 8px;
+      color: rgba(255,255,255,.45); font-size: .82rem;
+    }
+
+    .bottom-urgency { background: #071E1E; padding: 40px 24px; text-align: center; }
+    .bottom-urgency h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(1.3rem, 4.5vw, 1.7rem); font-weight: 900;
+      color: var(--white); margin-bottom: 10px; line-height: 1.3;
+    }
+    .bottom-urgency p { font-size: 1rem; line-height: 1.7; color: rgba(255,255,255,.6); max-width: 500px; margin: 0 auto 24px; }
+    .pulse-btn {
+      display: inline-block; background: var(--gold); color: var(--dark);
+      font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 1.05rem;
+      letter-spacing: 1px; text-transform: uppercase;
+      padding: 18px 44px; border-radius: 8px; border: none; cursor: pointer;
+      box-shadow: 0 7px 22px rgba(245,200,66,.35);
+      animation: ctaPulse 2.5s ease-in-out infinite; text-decoration: none;
+    }
+    .skip-link {
+      display: block; text-align: center; padding: 16px;
+      background: #071E1E; color: rgba(255,255,255,.3);
+      font-size: .82rem; text-decoration: underline; cursor: pointer;
+    }
+    .skip-link:hover { color: rgba(255,255,255,.55); }
+    .footer { background: #071E1E; color: rgba(255,255,255,.3); text-align: center; padding: 20px 24px; font-size: .8rem; }
+  </style>
+</head>
+<body>
+
+<div class="urgency-bar">
+  You're almost set. <span>One upgrade left</span> — and it's the one that gives you the complete system.
+</div>
+
+<div class="countdown-wrap">
+  <p class="countdown-label">This offer is available for</p>
+  <div class="countdown-tiles">
+    <div class="ct"><div class="ct-num" id="cd-min">15</div><div class="ct-label">Minutes</div></div>
+    <div class="ct-sep">:</div>
+    <div class="ct"><div class="ct-num" id="cd-sec">00</div><div class="ct-label">Seconds</div></div>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="container">
+    <div class="vip-badge">All-Access Upgrade</div>
+    <h1>You Have the Replay.<br><span>Want the Full System?</span></h1>
+    <p>The replay gets you the recording. But the All-Access package gives you everything you need to actually build and run the system — the templates, the map, the Q&amp;A, the community, and the support.</p>
+  </div>
+</section>
+
+<div class="vsl-section">
+  <div class="autoplay-note container">Sound on — watch this before you decide.</div>
+  <div class="vsl-wrap">
+    <!-- PASTE YOUR ALL-ACCESS UPGRADE VIDEO HERE -->
+    <div class="vsl-placeholder">
+      <div class="play-ring">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><polygon points="10,6 24,14 10,22" fill="#0B3535"/></svg>
+      </div>
+      <p style="color:rgba(255,255,255,.5); font-family:'Montserrat',sans-serif; font-size:.85rem; margin-top:20px;">[ PASTE YOUR ALL-ACCESS VIDEO HERE ]</p>
+    </div>
+  </div>
+  <div class="vsl-caption">Why All-Access is the upgrade that completes the system</div>
+</div>
+
+<section class="new-sec">
+  <div class="container">
+    <h2 class="reveal">What All-Access Adds on Top of Your Replay</h2>
+    <div class="divider"></div>
+    <p class="new-intro reveal">You already locked in the recording. Here's what else is included when you upgrade to All-Access.</p>
+
+    <div class="benefit-item" id="b1">
+      <div class="benefit-icon">Q&A</div>
+      <div class="benefit-text">
+        <h3>Live Q&amp;A Session</h3>
+        <p>Bring your specific situation and get it addressed directly. This is where the real implementation breakthroughs happen.</p>
+      </div>
+    </div>
+    <div class="benefit-item" id="b2">
+      <div class="benefit-icon navy">&#9654;</div>
+      <div class="benefit-text">
+        <h3>Presentation Templates</h3>
+        <p>Done-for-you templates that plug directly into the system you're building. No starting from scratch — just fill them in.</p>
+      </div>
+    </div>
+    <div class="benefit-item" id="b3">
+      <div class="benefit-icon">&#9654;</div>
+      <div class="benefit-text">
+        <h3>Visual Automation Map</h3>
+        <p>A clear, step-by-step visual of your entire system from capture to delivery — so you always know exactly what connects to what.</p>
+      </div>
+    </div>
+    <div class="benefit-item" id="b4">
+      <div class="benefit-icon navy">&#9654;</div>
+      <div class="benefit-text">
+        <h3>Private Community Access</h3>
+        <p>Surround yourself with people building the same systems. Share progress, ask questions, and stay accountable as you implement.</p>
+      </div>
+    </div>
+    <div class="benefit-item" id="b5">
+      <div class="benefit-icon">&#9654;</div>
+      <div class="benefit-text">
+        <h3>Priority Support</h3>
+        <p>Direct access to submit your implementation questions and get real answers fast — before and after the workshop.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="compare-sec">
+  <div class="container">
+    <h2 class="reveal">Replay vs. All-Access</h2>
+    <div class="compare-table reveal">
+      <div class="compare-row header">
+        <div class="compare-cell hdr label" style="background:var(--navy);">
+          <span class="hdr-label" style="color:rgba(255,255,255,.45);">What You Get</span>
+        </div>
+        <div class="compare-cell hdr hdr-replay">
+          <span class="hdr-price">$47</span>
+          <span class="hdr-label">Replay Only</span>
+        </div>
+        <div class="compare-cell hdr hdr-147">
+          <span class="hdr-price">$147</span>
+          <span class="hdr-label">All-Access</span>
+        </div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell label">Live 2-Hour Workshop</div>
+        <div class="compare-cell col-replay"><span class="tick">&#10003;</span></div>
+        <div class="compare-cell col-147"><span class="tick">&#10003;</span></div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell label">Workshop Replay</div>
+        <div class="compare-cell col-replay"><span class="tick">&#10003;</span></div>
+        <div class="compare-cell col-147"><span class="tick">&#10003;</span></div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell label">Live Q&amp;A Session</div>
+        <div class="compare-cell col-replay"><span class="cross">&#8212;</span></div>
+        <div class="compare-cell col-147"><span class="tick">&#10003;</span></div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell label">Presentation Templates</div>
+        <div class="compare-cell col-replay"><span class="cross">&#8212;</span></div>
+        <div class="compare-cell col-147"><span class="tick">&#10003;</span></div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell label">Visual Automation Map</div>
+        <div class="compare-cell col-replay"><span class="cross">&#8212;</span></div>
+        <div class="compare-cell col-147"><span class="tick">&#10003;</span></div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell label">Private Community</div>
+        <div class="compare-cell col-replay"><span class="cross">&#8212;</span></div>
+        <div class="compare-cell col-147"><span class="tick">&#10003;</span></div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell label">Priority Support</div>
+        <div class="compare-cell col-replay"><span class="cross">&#8212;</span></div>
+        <div class="compare-cell col-147"><span class="tick">&#10003;</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing-sec" id="pricing">
+  <div class="container">
+    <h2 class="reveal">Upgrade to All-Access</h2>
+    <p class="sub reveal">Add the complete system on top of your replay — one time, no subscriptions.</p>
+    <div class="divider"></div>
+
+    <div class="offer-card reveal">
+      <div class="offer-badge">Best Investment</div>
+      <div class="offer-name">All-Access</div>
+      <div class="offer-price"><sup>$</sup>147</div>
+      <p class="offer-desc">Everything included — templates, map, Q&amp;A, community, and support.</p>
+      <ul class="offer-features">
+        <li>Full workshop recording (already yours)</li>
+        <li>Live Q&amp;A session access</li>
+        <li>Presentation templates</li>
+        <li>Visual automation map</li>
+        <li>Private community access</li>
+        <li>Priority support</li>
+      </ul>
+      <a href="thank-you.html" class="checkout-btn">Yes, Upgrade to All-Access for $147</a>
+    </div>
+
+    <div class="guarantee reveal">
+      <span>&#128274;</span>
+      <span>Secure checkout &mdash; questions? Reply to your confirmation email.</span>
+    </div>
+  </div>
+</section>
+
+<section class="bottom-urgency">
+  <div class="container">
+    <h3 class="reveal">The Replay Gets You In. The System Gets You Results.</h3>
+    <p class="reveal">The recording alone shows you what to do. All-Access gives you the tools, the map, and the support to actually do it. This is where the system comes together.</p>
+    <a href="thank-you.html" class="pulse-btn reveal">Yes, Upgrade to All-Access for $147</a>
+  </div>
+</section>
+
+<a class="skip-link" href="thank-you.html">No thanks, the replay is enough for me &rarr;</a>
+
+<div class="footer">Turn Conversations Into Assets &mdash; 2-Hour Live Workshop &mdash; All rights reserved</div>
+
+<script>
+  let totalSeconds = 15 * 60;
+  function tick() {
+    const m = Math.floor(totalSeconds / 60);
+    const s = totalSeconds % 60;
+    document.getElementById('cd-min').textContent = String(m).padStart(2, '0');
+    document.getElementById('cd-sec').textContent = String(s).padStart(2, '0');
+    if (totalSeconds > 0) totalSeconds--;
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  const revs = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(e => {
+    e.forEach(en => { if (en.isIntersecting) { en.target.classList.add('visible'); obs.unobserve(en.target); } });
+  }, { threshold: 0.12 });
+  revs.forEach(r => obs.observe(r));
+
+  ['b1','b2','b3','b4','b5'].forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const o = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (en.isIntersecting) {
+          setTimeout(() => el.classList.add('visible'), i * 160);
+          o.unobserve(el);
+        }
+      });
+    }, { threshold: 0.1 });
+    o.observe(el);
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>You're In — Thank You | Turn Conversations Into Assets</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,900&family=Lato:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --peach:  #F5C4B2;
+      --lpeach: #FDF0EB;
+      --orange: #D46228;
+      --navy:   #1B1F4B;
+      --dark:   #1A1A1A;
+      --white:  #FFFFFF;
+      --gold:   #F5C842;
+      --pink:   #E0458A;
+      --green:  #1B8044;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Lato', sans-serif; background: var(--lpeach); color: var(--dark); overflow-x: hidden; }
+    .container { max-width: 680px; margin: 0 auto; padding: 0 24px; }
+    .divider { width: 56px; height: 5px; background: var(--orange); margin: 16px auto 24px; border-radius: 3px; }
+    .divider.green { background: var(--green); }
+
+    .confirm-banner {
+      background: var(--green);
+      padding: 14px 20px;
+      text-align: center;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .9rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: .5px;
+    }
+    .confirm-banner span { font-size: 1.1rem; margin-right: 6px; }
+
+    .ty-hero {
+      background: var(--peach);
+      padding: 60px 24px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .ty-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at top center, rgba(255,255,255,.4) 0%, transparent 65%);
+    }
+    .ty-hero > * { position: relative; z-index: 1; }
+
+    .check-circle {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: var(--green);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 22px;
+      box-shadow: 0 0 0 14px rgba(27,128,68,.2), 0 0 0 28px rgba(27,128,68,.08);
+      animation: checkGrow .6s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    @keyframes checkGrow {
+      from { transform: scale(0); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+    .check-circle svg { width: 38px; height: 38px; }
+
+    .ty-hero h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(2rem, 7vw, 3rem);
+      font-weight: 900;
+      color: var(--navy);
+      line-height: 1.1;
+      margin-bottom: 14px;
+    }
+    .ty-hero .welcome {
+      font-size: 1.15rem;
+      line-height: 1.75;
+      color: var(--dark);
+      max-width: 540px;
+      margin: 0 auto 24px;
+    }
+    .purchase-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--white);
+      border-radius: 30px;
+      padding: 10px 22px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.1);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800; font-size: .9rem;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .purchase-tag .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
+
+    .purchased-sec {
+      background: var(--white);
+      padding: 52px 24px;
+    }
+    .purchased-sec h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(1.4rem, 5vw, 1.85rem);
+      font-weight: 900;
+      color: var(--navy);
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .purchase-box {
+      max-width: 540px; margin: 0 auto;
+      border: 2px solid var(--peach);
+      border-radius: 14px; overflow: hidden;
+    }
+    .purchase-box-header {
+      background: var(--navy);
+      padding: 16px 22px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .purchase-box-header h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900; font-size: 1.05rem;
+      color: var(--white);
+    }
+    .purchase-box-header .tier-pill {
+      margin-left: auto;
+      background: var(--orange);
+      color: white;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .75rem; font-weight: 800;
+      letter-spacing: 1px; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 20px;
+    }
+    .purchase-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 14px 22px;
+      border-bottom: 1px solid #f0f0f0;
+      font-size: .95rem; line-height: 1.5;
+    }
+    .purchase-item:last-child { border-bottom: none; }
+    .pi-check {
+      width: 22px; height: 22px; min-width: 22px;
+      border-radius: 50%;
+      background: var(--green);
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-weight: 900; font-size: .75rem;
+    }
+
+    .ty-video-sec {
+      background: var(--navy);
+      padding: 52px 24px;
+      text-align: center;
+    }
+    .ty-video-sec h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(1.4rem, 5vw, 1.85rem);
+      font-weight: 900;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+    .ty-video-sec p {
+      font-size: 1rem; line-height: 1.7;
+      color: rgba(255,255,255,.7);
+      max-width: 520px; margin: 0 auto 24px;
+    }
+    .ty-vsl {
+      position: relative; max-width: 620px; margin: 0 auto;
+      aspect-ratio: 16/9; border-radius: 14px; overflow: hidden;
+      background: #000;
+      box-shadow: 0 14px 50px rgba(0,0,0,.6);
+    }
+    .ty-vsl iframe, .ty-vsl video {
+      position: absolute; inset: 0; width: 100%; height: 100%; border: none;
+    }
+    .ty-vsl-placeholder {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      background: linear-gradient(135deg,#1B1F4B 0%,#2e3478 100%);
+    }
+
+    .steps-sec {
+      background: var(--lpeach);
+      padding: 52px 24px;
+    }
+    .steps-sec h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(1.4rem, 5vw, 1.85rem);
+      font-weight: 900;
+      color: var(--navy);
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .step-card {
+      display: flex; align-items: flex-start; gap: 16px;
+      background: var(--white);
+      border-radius: 12px; padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.07);
+      opacity: 0; transform: translateY(16px);
+      transition: opacity .45s ease, transform .45s ease;
+    }
+    .step-card.visible { opacity: 1; transform: translateY(0); }
+    .step-num {
+      width: 42px; height: 42px; min-width: 42px;
+      border-radius: 50%;
+      background: var(--orange);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900; font-size: 1.1rem;
+      color: white;
+    }
+    .step-content h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800; font-size: 1rem;
+      color: var(--navy); margin-bottom: 4px;
+    }
+    .step-content p { font-size: .95rem; line-height: 1.55; color: #555; }
+    .step-action {
+      display: inline-block; margin-top: 8px;
+      background: var(--navy); color: white;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700; font-size: .82rem;
+      padding: 7px 16px; border-radius: 20px;
+      text-decoration: none;
+      transition: background .15s;
+    }
+    .step-action:hover { background: var(--orange); }
+
+    .community-sec {
+      background: var(--peach);
+      padding: 52px 24px;
+      text-align: center;
+    }
+    .community-sec h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(1.4rem, 5vw, 1.75rem);
+      font-weight: 900;
+      color: var(--navy); margin-bottom: 10px;
+    }
+    .community-sec p {
+      font-size: 1.05rem; line-height: 1.7;
+      color: var(--dark); max-width: 520px;
+      margin: 0 auto 28px;
+    }
+    .community-buttons {
+      display: flex; gap: 14px;
+      justify-content: center; flex-wrap: wrap;
+    }
+    .comm-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 24px; border-radius: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800; font-size: .9rem;
+      text-decoration: none;
+      transition: transform .15s, box-shadow .15s;
+    }
+    .comm-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,.15); }
+    .comm-btn.fb  { background: #1877F2; color: white; }
+    .comm-btn.ig  { background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); color: white; }
+    .comm-btn.yt  { background: #FF0000; color: white; }
+    .comm-btn.nav { background: var(--navy); color: white; }
+
+    .share-sec {
+      background: var(--white);
+      padding: 44px 24px;
+      text-align: center;
+    }
+    .share-sec h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900; font-size: 1.3rem;
+      color: var(--navy); margin-bottom: 8px;
+    }
+    .share-sec p { font-size: .95rem; color: #666; margin-bottom: 20px; line-height: 1.6; }
+
+    .footer {
+      background: var(--navy);
+      color: rgba(255,255,255,.4);
+      text-align: center;
+      padding: 20px 24px;
+      font-size: .8rem;
+    }
+
+    .reveal {
+      opacity: 0; transform: translateY(18px);
+      transition: opacity .5s ease, transform .5s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    .confetti-canvas {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+
+<canvas class="confetti-canvas" id="confettiCanvas"></canvas>
+
+<div class="confirm-banner">
+  <span>&#10003;</span> Purchase confirmed — check your inbox for your receipt and access details.
+</div>
+
+<section class="ty-hero">
+  <div class="container">
+    <div class="check-circle">
+      <svg viewBox="0 0 38 38" fill="none">
+        <polyline points="8,20 16,28 30,12" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h1>You're In.<br>Welcome to the System.</h1>
+    <p class="welcome">
+      Your registration is confirmed and your access is being set up right now.
+      Everything you need to start building will be in your inbox shortly.
+    </p>
+    <div class="purchase-tag">
+      <div class="dot"></div>
+      <span>Turn Conversations Into Assets — VIP Access Confirmed</span>
+    </div>
+  </div>
+</section>
+
+<section class="purchased-sec">
+  <div class="container">
+    <h2 class="reveal">Here's What You Have Access To</h2>
+    <div class="divider"></div>
+    <div class="purchase-box reveal">
+      <div class="purchase-box-header">
+        <h3>Turn Conversations Into Assets</h3>
+        <div class="tier-pill">All-Access — $147</div>
+      </div>
+      <div class="purchase-item">
+        <div class="pi-check">&#10003;</div>
+        <span>Live 2-Hour Workshop — full attendance access</span>
+      </div>
+      <div class="purchase-item">
+        <div class="pi-check">&#10003;</div>
+        <span>Full workshop recording — watch on your schedule</span>
+      </div>
+      <div class="purchase-item">
+        <div class="pi-check">&#10003;</div>
+        <span>Live Q&amp;A session — get your questions answered directly</span>
+      </div>
+      <div class="purchase-item">
+        <div class="pi-check">&#10003;</div>
+        <span>Presentation templates — ready to plug in and use</span>
+      </div>
+      <div class="purchase-item">
+        <div class="pi-check">&#10003;</div>
+        <span>Visual automation map — your full system laid out step by step</span>
+      </div>
+      <div class="purchase-item">
+        <div class="pi-check">&#10003;</div>
+        <span>Private community access — ongoing support and accountability</span>
+      </div>
+      <div class="purchase-item">
+        <div class="pi-check">&#10003;</div>
+        <span>Priority support — direct access to get your questions answered fast</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ty-video-sec">
+  <div class="container">
+    <h2 class="reveal">A Personal Note From Me</h2>
+    <p class="reveal">Watch this short video — I walk you through exactly what to expect, how to prepare, and how to get the most out of your experience.</p>
+    <div class="ty-vsl reveal">
+      <!-- PASTE YOUR THANK YOU / WALKTHROUGH VIDEO EMBED HERE -->
+      <div class="ty-vsl-placeholder">
+        <div style="width:68px; height:68px; border-radius:50%; background:var(--orange); display:flex; align-items:center; justify-content:center; box-shadow:0 0 0 14px rgba(212,98,40,.2);">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><polygon points="9,5 22,13 9,21" fill="white"/></svg>
+        </div>
+        <p style="color:rgba(255,255,255,.5); font-family:'Montserrat',sans-serif; font-size:.85rem; margin-top:16px;">[ YOUR THANK YOU VIDEO HERE ]</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="steps-sec">
+  <div class="container">
+    <h2 class="reveal">Your Next 3 Steps</h2>
+    <div class="divider"></div>
+
+    <div class="step-card" id="st1">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h3>Check Your Email</h3>
+        <p>Your receipt, access link, and all workshop details have been sent to the email you registered with. Check your spam folder if you don't see it within a few minutes.</p>
+        <a href="#" class="step-action">Add Workshop to Calendar</a>
+      </div>
+    </div>
+    <div class="step-card" id="st2">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h3>Access Your Bonuses</h3>
+        <p>Your templates, prompts, and automation map are ready for you in the members area. The link is in your confirmation email — download them before the workshop so you can follow along.</p>
+        <a href="#" class="step-action">Access Your Materials</a>
+      </div>
+    </div>
+    <div class="step-card" id="st3">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h3>Join the Community</h3>
+        <p>Introduce yourself in the private group and let everyone know you're in. Connect with others building the same system and get support before, during, and after the workshop.</p>
+        <a href="#" class="step-action">Join the Group</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="community-sec">
+  <div class="container">
+    <h2 class="reveal">Stay Connected</h2>
+    <div class="divider"></div>
+    <p class="reveal">The community is where the real work happens. Show up, share your progress, and let's build together.</p>
+    <div class="community-buttons reveal">
+      <a href="#" class="comm-btn fb">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        Private Facebook Group
+      </a>
+      <a href="#" class="comm-btn ig">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg>
+        Follow on Instagram
+      </a>
+      <a href="#" class="comm-btn yt">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#FF0000"/></svg>
+        Subscribe on YouTube
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="share-sec">
+  <div class="container">
+    <h3 class="reveal">Know Someone Who Needs This?</h3>
+    <p class="reveal">Share the workshop with a friend who's tired of losing the value from every conversation they have. It's still free to attend.</p>
+    <div class="community-buttons reveal">
+      <a href="#" class="comm-btn nav" onclick="navigator.share ? navigator.share({title:'Turn Conversations Into Assets',url:window.location.origin+'/conversations-into-assets-funnel.html'}) : alert('Copy this link to share: '+window.location.origin+'/conversations-into-assets-funnel.html'); return false;">
+        Share the Workshop
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="footer">Turn Conversations Into Assets &mdash; 2-Hour Live Workshop &mdash; All rights reserved</div>
+
+<script>
+  const canvas = document.getElementById('confettiCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const colors = ['#D46228','#F5C4B2','#1B1F4B','#F5C842','#E0458A','#1B8044'];
+  const particles = Array.from({length: 110}, () => ({
+    x: Math.random() * canvas.width,
+    y: -10 - Math.random() * 200,
+    r: 4 + Math.random() * 5,
+    d: 2 + Math.random() * 4,
+    color: colors[Math.floor(Math.random() * colors.length)],
+    tilt: Math.floor(Math.random() * 10) - 10,
+    tiltAngle: 0,
+    tiltAngleInc: 0.07 + Math.random() * 0.05,
+  }));
+  let frame = 0;
+  function drawConfetti() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      ctx.save(); ctx.beginPath();
+      ctx.lineWidth = p.r;
+      ctx.strokeStyle = p.color;
+      ctx.moveTo(p.x + p.tilt + p.r / 3, p.y);
+      ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r / 5);
+      ctx.stroke(); ctx.restore();
+      p.tiltAngle += p.tiltAngleInc;
+      p.y += (Math.cos(frame / 18) + p.d) * 0.9;
+      p.tilt = Math.sin(p.tiltAngle) * 12;
+      if (p.y > canvas.height) { p.y = -10; p.x = Math.random() * canvas.width; }
+    });
+    frame++;
+    if (frame < 260) requestAnimationFrame(drawConfetti);
+    else ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+  drawConfetti();
+
+  const revs = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(e => {
+    e.forEach(en => { if (en.isIntersecting) { en.target.classList.add('visible'); obs.unobserve(en.target); } });
+  }, { threshold: 0.12 });
+  revs.forEach(r => obs.observe(r));
+
+  ['st1','st2','st3'].forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const o = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (en.isIntersecting) {
+          setTimeout(() => el.classList.add('visible'), i * 200);
+          o.unobserve(el);
+        }
+      });
+    }, { threshold: 0.1 });
+    o.observe(el);
+  });
+</script>
+</body>
+</html>
